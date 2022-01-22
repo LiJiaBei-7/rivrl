@@ -3,6 +3,5 @@ __pycache__
 *~
 *.swp
 *.swo
-do_all_*.sh
 do_test_*.sh
 do_pred*.sh
