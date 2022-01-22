@@ -56,10 +56,10 @@ conda deactivate
 
 <table>
   <tr align="center">
-      <th >DataSets</th> <th>Splits <th>BERT</th>
+      <th >DataSet</th> <th>Splits <th>BERT</th>
   </tr>	
   <tr>
-    <td colspan='2' align="center">MST-VTT</td>
+    <td colspan='2' align="center">MSR-VTT</td>
     <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
       '>url</a>,
       password:6knd</td>
@@ -105,7 +105,7 @@ The datasets and their split names are shown in the following table:
 
 <table>
   <tr align="center">
-    <th>DataSets</th><th>Split-Name</th>
+    <th>DataSet</th><th>Split-Name</th>
   </tr>
   <tr align="center">
     <td rowspan='3'>MSR-VTT</td>
@@ -118,6 +118,7 @@ The datasets and their split names are shown in the following table:
     <td>msrvtt10kyu</td>
   </tr>
 </table>
+
 
 ### Model Training and Evaluation
 
@@ -144,7 +145,7 @@ The overview of pre-trained checkpoints on MSR-VTT is as follows.
 
 <table>
   <tr align='center'>
-    <th>DataSets</th><th>Splits</th><th>Bert</th><th>Pre-trained Checkpoints</th>
+    <th>DataSet</th><th>Splits</th><th>Bert</th><th>Pre-trained Checkpoints</th>
   </tr>
   <tr align='center'>
   	<td rowspan='6'>MSR-VTT</td>
@@ -170,6 +171,7 @@ The overview of pre-trained checkpoints on MSR-VTT is as follows.
   	<td>with</td>
 </table>
 
+
 Run the following script to download and evaluate our trained checkpoints. The trained checkpoints can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1dEmmhpS3x_WvuMyzDZI40Q), password:wb3c).
 
 ```shell
@@ -193,7 +195,7 @@ The expected performance of RIVRL on MSR-VTT is as follows. Notice that due to r
 
 <table>
   <tr align="center">
-    <th rowspan='2'>DataSets</th><th rowspan="2">Splits</th><th rowspan='2'>BERT</th><th colspan='5'>Text-to-Video Retrieval</th> <th rowspan='2'>SumR</th>
+    <th rowspan='2'>DataSet</th><th rowspan="2">Splits</th><th rowspan='2'>BERT</th><th colspan='5'>Text-to-Video Retrieval</th> <th rowspan='2'>SumR</th>
     </tr>
   <tr align="center">
         <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th>
@@ -236,6 +238,7 @@ The expected performance of RIVRL on MSR-VTT is as follows. Notice that due to r
 
 
 
+
 ## RIVRL on VATEX
 
 ### Model Training and Evaluation
@@ -268,7 +271,7 @@ The expected performance of Dual Encoding with hybrid space learning on VATEX is
 
 <table>
   <tr align="center">
-    <th rowspan='2'>DataSets</th><th rowspan="2">Splits</th><th rowspan='2'>BERT</th><th colspan='5'>Text-to-Video Retrieval</th> <th rowspan='2'>SumR</th>
+    <th rowspan='2'>DataSet</th><th rowspan="2">Splits</th><th rowspan='2'>BERT</th><th colspan='5'>Text-to-Video Retrieval</th> <th rowspan='2'>SumR</th>
     </tr>
   <tr align="center">
         <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th>
@@ -287,13 +290,14 @@ The expected performance of Dual Encoding with hybrid space learning on VATEX is
 </table>
 
 
+
 ## RIVRL on TGIF
 
 The datasets and their split names are shown in the following table: 
 
 <table>
   <tr align="center">
-    <th>DataSets</th><th>Split-Name</th>
+    <th>DataSet</th><th>Split-Name</th>
   </tr>
   <tr align="center">
     <td rowspan='2'>TGIF</td>
@@ -303,6 +307,7 @@ The datasets and their split names are shown in the following table:
     <td>tgif_chen</td>
   </tr>
 </table>
+
 
 
 
@@ -341,7 +346,7 @@ The expected performance of Dual Encoding with hybrid space learning on TGIF is 
 
 <table>
   <tr align="center">
-    <th rowspan='2'>DataSets</th><th rowspan="2">Splits</th><th rowspan='2'>BERT</th><th colspan='5'>Text-to-Video Retrieval</th> <th rowspan='2'>SumR</th>
+    <th rowspan='2'>DataSet</th><th rowspan="2">Splits</th><th rowspan='2'>BERT</th><th colspan='5'>Text-to-Video Retrieval</th> <th rowspan='2'>SumR</th>
     </tr>
   <tr align="center">
         <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th>
@@ -370,6 +375,7 @@ The expected performance of Dual Encoding with hybrid space learning on TGIF is 
     <td>47.4</td> 
   </tr>
 </table>
+
 
 
 

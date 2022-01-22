@@ -703,7 +703,7 @@ class Preview_Intensive_Encoding_Hybrid(Preview_Intensive_Encoding):
         return pred_prob
 
 
-NAME_TO_MODELS = {'preview_intensive_encoding_latent': Preview_Intensive_Encoding, 'preview_intensive_encoding_hybrid': Preview_Intensive_Encoding_Hybrid}
+NAME_TO_MODELS = {'rivrl_latent': Preview_Intensive_Encoding, 'rivrl_hybrid': Preview_Intensive_Encoding_Hybrid}
 
 
 def get_model(name):
