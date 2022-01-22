@@ -32,7 +32,7 @@ We used Anaconda to setup a deep learning workspace that supports PyTorch. Run t
 conda create --name rivrl_env python=3.8.5
 conda activate rivrl_env
 git clone https://github.com/LiJiaBei-7/rivrl.git
-cd rivrl/rivrl
+cd rivrl
 pip install -r requirements.txt
 conda deactivate
 ```
