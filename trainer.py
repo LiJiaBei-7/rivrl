@@ -79,7 +79,7 @@ def parse_args():
     parser.add_argument('--workers', type=int, default=5, help='Number of data loader workers.')
     parser.add_argument('--postfix', type=str, default='runs_0', help='Path to save the model and Tensorboard log.')
     parser.add_argument('--log_step', type=int, default=10, help='Number of steps to print and record the log.')
-    parser.add_argument('--cv_name', type=str, default='cv_tpami_2021', help='')
+    parser.add_argument('--cv_name', type=str, default='cv', help='')
     #tag
     parser.add_argument('--tag_vocab_size', type=int, default=512, help='what the size of tag vocab will you use')
 
@@ -131,7 +131,9 @@ def main():
     collection_1 = collection
     if 'msrvtt10k' in collection != -1:
         collection_1 = 'msrvtt10k'
-    opt.bert_file = os.path.join('/home/wyb/workplace/disk3/wyb/bert_extract', '%s_cap_feat.hdf5') % collection_1
+    bert_path = os.path.join(opt.rootpath, 'bert_extract')
+    opt.bert_file = os.path.join(bert_path, '%s_cap_feat.hdf5') % collection_1
+    # opt.bert_file = os.path.join('/home/wyb/workplace/disk3/wyb/bert_extract', '%s_cap_feat.hdf5') % collection_1
     opt.collections_pathname = collections_pathname
     opt.cap_file = cap_file
 

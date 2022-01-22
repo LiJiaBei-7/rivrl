@@ -2,7 +2,7 @@
 
 Source code of our paper [Reading-strategy Inspired Visual Representation Learning for Text-to-Video Retrieval](https://arxiv.org/abs/). 
 
-![image](rivrl/framework.png)
+![image](framework.png)
 
 
 
@@ -93,7 +93,7 @@ conda deactivate
   </tr>
 </table>
 
-Run the following script to download and extract MSR-VTT(msrvtt10k-resnext101_resnet152.tar.gz(4.3G)) dataset and a pre-trained word2vec (vec500flickr30m.tar.gz(3.0G)). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](rivrl/dataset/README.md).
+Run the following script to download and extract MSR-VTT(msrvtt10k-resnext101_resnet152.tar.gz(4.3G)) dataset and a pre-trained word2vec (vec500flickr30m.tar.gz(3.0G)). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](https://github.com/danieljf24/hybrid_space/tree/master/dataset).
 
 Additionally, if you want to train with BERT, you can download  the features from Baidu pan ([url](https://pan.baidu.com/s/1iH4Ey2IJLcCdUzXqi3mYUQ), password:cibp) .
 
@@ -220,7 +220,7 @@ The overview of pre-trained checkpoints on MSR-VTT/VATEX/TGIF are as follows.
   <tr align='center'>
     <td rowspan='2'>MV-Miech</td>
     <td>w/o</td>
-    <td><a pref='https://pan.baidu.com/s/1dEmmhpS3x_WvuMyzDZI40Q'>msrvtt10kmiech_model_best.pth.tar(435.53M)</a>，password:wb3c</td>
+    <td><a href='https://pan.baidu.com/s/1dEmmhpS3x_WvuMyzDZI40Q'>msrvtt10kmiech_model_best.pth.tar(435.53M)</a>，password:wb3c</td>
   </tr>
   <tr align='center'>
   	<td>with</td>
@@ -229,7 +229,7 @@ The overview of pre-trained checkpoints on MSR-VTT/VATEX/TGIF are as follows.
   <tr align='center'>
     <td rowspan='2'>MV-Xu</td>
     <td>w/o</td>
-    <td><a href='https://pan.baidu.com/s/1dEmmhpS3x_WvuMyzDZI40Q'>msrvtt10kxu_model_best.pth.tar()</a>，password:wb3c</td>
+    <td><a href='https://pan.baidu.com/s/1dEmmhpS3x_WvuMyzDZI40Q'>msrvtt10kxu_model_best.pth.tar(800.72M)</a>，password:wb3c</td>
   </tr>
   <tr align='center'>
   	<td>with</td>
@@ -264,6 +264,7 @@ The overview of pre-trained checkpoints on MSR-VTT/VATEX/TGIF are as follows.
     <td><a href='https://pan.baidu.com/s/1dEmmhpS3x_WvuMyzDZI40Q'>vatex_bert_model_best.pth.tar(420.99M)</a>，password:wb3c</td>
   </tr>
 </table>  
+
 
 
 Run the following script to download and evaluate our trained checkpoints. The trained checkpoints can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1dEmmhpS3x_WvuMyzDZI40Q), password:wb3c).
