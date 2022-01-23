@@ -112,7 +112,6 @@ def encode_vid(encoder, data_loader, return_ids=True):
     """Encode all videos and captions loadable by `data_loader`
     """
     # numpy array to keep all the embeddings
-    # embeddings = None
     embeddings_preview = None
     embeddings_intensive = None
     ids = ['']*len(data_loader.dataset)
@@ -123,9 +122,7 @@ def encode_vid(encoder, data_loader, return_ids=True):
         emb_preview, emb_intensive = encoder(datas)
 
         # initialize the numpy arrays given the size of the embeddings
-        # if embeddings is None:
         if embeddings_preview is None:
-            # embeddings = np.zeros((len(data_loader.dataset), emb.size(1)))
             embeddings_preview = np.zeros((len(data_loader.dataset), emb_preview.size(1)))
             embeddings_intensive = np.zeros((len(data_loader.dataset), emb_intensive.size(1)))
 
@@ -140,10 +137,8 @@ def encode_vid(encoder, data_loader, return_ids=True):
         pbar.add(len(idxs))
 
     if return_ids == True:
-        # return embeddings, ids,
         return embeddings_preview, embeddings_intensive, ids,
     else:
-        # return embeddings
         return embeddings_preview, embeddings_intensive
 
 # encode text
@@ -212,12 +207,11 @@ def encode_text_or_vid(encoder, data_loader, return_ids=True):
 
 
 
-# encode hybrid vid
+# encode hybrid
 def encode_hybrid(encoder, data_loader, return_ids=True):
     """Encode all videos and captions loadable by `data_loader`
     """
     # numpy array to keep all the embeddings
-    # embeddings = None
     embeddings_preview = None
     embeddings_tag_preview = None
     embeddings_intensive = None
@@ -227,7 +221,6 @@ def encode_hybrid(encoder, data_loader, return_ids=True):
     for i, (datas, idxs, data_ids) in enumerate(data_loader):
 
         # compute the embeddings
-        # emb = encoder(datas)
         emb_preview_s, emb_intensive_s = encoder(datas)
         emb_preview, emb_tag_preview = emb_preview_s
         emb_intensive, emb_tag_intensive = emb_intensive_s
@@ -252,53 +245,6 @@ def encode_hybrid(encoder, data_loader, return_ids=True):
         pbar.add(len(idxs))
 
     if return_ids == True:
-        # return embeddings, ids,
         return embeddings_preview, embeddings_tag_preview, embeddings_intensive, embeddings_tag_intensive, ids,
     else:
-        # return embeddings
         return embeddings_preview, embeddings_tag_preview, embeddings_intensive, embeddings_tag_intensive
-
-
-
-
-# encode text or video in hybrid manner
-def encode_text_or_vid_tag_hist_prob(encoder, data_loader, return_ids=True):
-    """Encode all videos and captions loadable by `data_loader`
-    """
-    # numpy array to keep all the embeddings
-    init_flag = True
-    ids = ['']*len(data_loader.dataset)
-    pbar = Progbar(len(data_loader.dataset))
-    for i, (datas, idxs, data_ids) in enumerate(data_loader):
-
-        # compute the embeddings
-        emb, tag_prob = encoder(datas)
-
-        # initialize the numpy arrays given the size of the embeddings
-        if init_flag:
-            init_flag = False
-            if emb is not None:
-                embeddings = np.zeros((len(data_loader.dataset), emb.size(1)))
-            else:
-                embeddings = None
-            if tag_prob is not None:
-                tag_prob_embs = np.zeros((len(data_loader.dataset), tag_prob.size(1)))
-            else:
-                tag_prob_embs = None
-
-        # preserve the embeddings by copying from gpu and converting to numpy
-        if emb is not None:
-            embeddings[idxs] = emb.data.cpu().numpy().copy()
-        if tag_prob is not None:
-            tag_prob_embs[idxs] = tag_prob.data.cpu().numpy().copy()
-
-        for j, idx in enumerate(idxs):
-            ids[idx] = data_ids[j]
-
-        del datas
-        pbar.add(len(idxs))
-
-    if return_ids == True:
-        return embeddings, tag_prob_embs, ids,
-    else:
-        return embeddings, tag_prob_embs

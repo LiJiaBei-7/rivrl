@@ -141,7 +141,7 @@ class Video_preview_intensive_encoding(nn.Module):
 
         self.fc_org = nn.Linear(opt.visual_feat_dim, 2048)
 
-        self.paa = preview_aware_attention(opt, opt.qkv_input_dim, opt.qkv_out_dim)
+        self.paa = preview_aware_attention(opt, self.rnn_output_size, opt.qkv_input_dim, opt.qkv_out_dim)
 
         if opt.space == 'latent':
             self.vid_mapping_preview = Latent_mapping(opt.visual_mapping_layers_preview,
@@ -161,7 +161,7 @@ class Video_preview_intensive_encoding(nn.Module):
         videos, videos_origin, lengths, mask = videos
         del videos_origin
 
-        # GRU
+        # previewing_branch
         gru_init_out, _ = self.rnn(videos)
         if self.gru_pool == 'mean':
             mean_gru = Variable(torch.zeros(gru_init_out.size(0), self.rnn_output_size)).cuda()
@@ -169,11 +169,12 @@ class Video_preview_intensive_encoding(nn.Module):
                 mean_gru[i] = torch.mean(batch[:lengths[i]], 0)
             gru_out = mean_gru
         elif self.gru_pool == 'max':
-            gru_out = torch.max(torch.mul(gru_init_out, videos_mask.unsqueeze(-1)), 1)[0]
+            gru_out = torch.max(torch.mul(gru_init_out, mask.unsqueeze(-1)), 1)[0]
         preview_out = self.dropout(gru_out)
 
-        #intensive_mapping_low_dim
-        con_input = F.relu(self.fc_org(videos))  # 2048
+        # intensive-reading_branch
+        # Map to lower dimensions
+        con_input = F.relu(self.fc_org(videos))
 
         mask_con = mask.unsqueeze(2).expand(-1, -1, con_input.size(2))  # (N,C,F1)
         con_input_mask = con_input * mask_con
@@ -184,6 +185,7 @@ class Video_preview_intensive_encoding(nn.Module):
             con_out_list.append(con_out_i)
         del mask_con, con_input
 
+        # previewing-aware attention
         intensive_out_list = []
         aware_out_frame = self.paa(mask, con_input_mask, preview_out.unsqueeze(1))
         intensive_out_list.append(aware_out_frame)
@@ -648,10 +650,8 @@ class Preview_Intensive_Encoding_Hybrid(Preview_Intensive_Encoding):
 
         loss = loss_1 + loss_2 + batch_size * (loss_3 + loss_4)
         if vid_emb_preview is not None:
-            # self.logger.update('Le', loss.data[0], vid_emb.size(0))
             self.logger.update('Le', loss.item(), vid_emb_preview.size(0))
         else:
-            # self.logger.update('Le', loss.data[0], vid_tag_prob.size(0))
             self.logger.update('Le', loss.item(), vid_tag_prob_preview.size(0))
 
         return loss
@@ -682,7 +682,6 @@ class Preview_Intensive_Encoding_Hybrid(Preview_Intensive_Encoding):
         self.optimizer.zero_grad()
         loss = self.forward_loss(cap_emb_preview, cap_emb_intensive, vid_emb_preview, vid_emb_intensive, cap_tag_prob_preview,
                                  cap_tag_prob_intensive, vid_tag_prob_preview, vid_tag_prob_intensive,  target_tag)
-        # loss_value = loss.data[0]
         loss_value = loss.item()
 
         # compute gradient and do SGD step
@@ -703,7 +702,7 @@ class Preview_Intensive_Encoding_Hybrid(Preview_Intensive_Encoding):
         return pred_prob
 
 
-NAME_TO_MODELS = {'rivrl_latent': Preview_Intensive_Encoding, 'rivrl_hybrid': Preview_Intensive_Encoding_Hybrid}
+NAME_TO_MODELS = {'preview_intensive_encoding_latent': Preview_Intensive_Encoding, 'preview_intensive_encoding_hybrid': Preview_Intensive_Encoding_Hybrid}
 
 
 def get_model(name):

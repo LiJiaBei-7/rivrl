@@ -133,7 +133,6 @@ def main():
         collection_1 = 'msrvtt10k'
     bert_path = os.path.join(opt.rootpath, 'bert_extract')
     opt.bert_file = os.path.join(bert_path, '%s_cap_feat.hdf5') % collection_1
-    # opt.bert_file = os.path.join('/home/wyb/workplace/disk3/wyb/bert_extract', '%s_cap_feat.hdf5') % collection_1
     opt.collections_pathname = collections_pathname
     opt.cap_file = cap_file
 
@@ -148,7 +147,7 @@ def main():
     text_encode_info = 'vocab_%s_word_dim_%s_text_rnn_size_%s_text_norm_%s' % \
             (opt.vocab, opt.word_dim, opt.text_rnn_size, opt.text_norm)
     text_encode_info += "_kernel_sizes_%s_num_%s" % (opt.text_kernel_sizes, opt.text_kernel_num)
-    # video-side multi-level encoding info
+    # video-side encoding info
     visual_encode_info = 'visual_feature_%s_visual_rnn_size_%d_visual_norm_%s' % \
             (opt.visual_feature, opt.visual_rnn_size, opt.visual_norm)
     visual_encode_info += "_kernel_sizes_%s_num_%s_kernel_stride_%s" % (opt.visual_kernel_sizes, opt.visual_kernel_num, opt.visual_kernel_stride)
@@ -191,7 +190,7 @@ def main():
     # logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
     log_config(opt.logger_name)
     tb_logger.configure(opt.logger_name, flush_secs=5)
-    logging.info(json.dumps(vars(opt), indent = 2))
+    logging.info(json.dumps(vars(opt), indent=2))
 
 
     opt.text_kernel_sizes = list(map(int, opt.text_kernel_sizes.split('-')))

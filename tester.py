@@ -34,6 +34,7 @@ def parse_args():
     parser.add_argument('--batch_size', default=128, type=int, help='Size of a training mini-batch.')
     parser.add_argument('--workers', default=5, type=int, help='Number of data loader workers.')
     parser.add_argument('--logger_name', default='runs', help='Path to save the model and Tensorboard log.')
+    parser.add_argument('--cv_name', default='cv_2021')
     parser.add_argument('--checkpoint_name', default='model_best.pth.tar', type=str,
                         help='name of checkpoint (default: model_best.pth.tar)')
 
@@ -64,14 +65,21 @@ def main():
     testCollection = opt.testCollection
     collections_pathname = options.collections_pathname
     collections_pathname['test'] = testCollection
+    # train
+    for key in collections_pathname:
+        if collections_pathname[key] == 'o_tgif':
+            collections_pathname[key] = 'tgif_chen'
+        elif collections_pathname[key] == 'tgif':
+            collections_pathname[key] = 'tgif_li'
+    print(collections_pathname)
 
     trainCollection = options.trainCollection
     output_dir = resume.replace(trainCollection, testCollection)
     if 'checkpoints' in output_dir:
         output_dir = output_dir.replace('/checkpoints/', '/results/')
     else:
-        output_dir = output_dir.replace('/%s/' % options.cv_name,
-                                        '/results/%s/%s/' % (options.cv_name, trainCollection))
+        output_dir = output_dir.replace('/%s/' % opt.cv_name,
+                                        '/results/%s/%s/' % (opt.cv_name, trainCollection))
     result_pred_sents = os.path.join(output_dir, 'id.sent.score.txt')
     pred_error_matrix_file = os.path.join(output_dir, 'pred_errors_matrix.pth.tar')
     if checkToSkip(pred_error_matrix_file, opt.overwrite):
@@ -79,6 +87,7 @@ def main():
     makedirsforfile(pred_error_matrix_file)
 
     log_config(output_dir)
+
     logging.info(json.dumps(vars(opt), indent=2))
 
     # data loader prepare
@@ -126,8 +135,7 @@ def main():
 
     # mapping
     if options.space == 'hybrid':
-        # video_embs, video_tag_probs, video_ids = evaluation.encode_text_or_vid_tag_hist_prob(model.embed_vis, vid_data_loader)
-        # cap_embs, cap_tag_probs, caption_ids = evaluation.encode_text_or_vid_tag_hist_prob(model.embed_txt, text_data_loader)
+
         video_embs, video_tag_probs, video_locals_embs, video_local_tag_probs, video_ids = evaluation.encode_hybrid(
             model.embed_vis,
             vid_data_loader)

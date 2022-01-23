@@ -35,17 +35,17 @@ class SelfAttention(nn.Module):
             residual = F.max_pool1d(x.permute(0, 2, 1), x.size(1)).squeeze(2)
 
 
-        q = self.linear_q(y)  # batch, n, dim_k
-        k = self.linear_k(x)  # batch, n, dim_k
-        v = self.linear_v(x)  # batch, n, dim_v
+        q = self.linear_q(y)
+        k = self.linear_k(x)
+        v = self.linear_v(x)
 
         attention_mask = mask.unsqueeze(1)
         attention_mask = (1.0 - attention_mask) * -10000.0  # padding的token置为-10000，exp(-1w)=0
 
-        dist = torch.bmm(q, k.transpose(1, 2)) * self._norm_fact  # batch, n, n
+        dist = torch.bmm(q, k.transpose(1, 2)) * self._norm_fact
 
         attention_scores = dist + attention_mask
-        attention_probs = torch.softmax(attention_scores, dim=-1)  # batch, n, n
+        attention_probs = torch.softmax(attention_scores, dim=-1)
         attention_probs = self.dropout(attention_probs)
         att = torch.bmm(attention_probs, v).squeeze(1)
         att = self.layer_norm(self.fc_v(att) + residual)
@@ -81,10 +81,10 @@ class PositionwiseFeedForward(nn.Module):
 
 
 class qkv_layer(nn.Module):
-    def __init__(self, opt, qkv_input_dim, qkv_out_dim):
+    def __init__(self, opt, q_input_dim, kv_input_dim, qkv_out_dim):
         super(qkv_layer, self).__init__()
         self.qk_dim = 512
-        self.qkv = SelfAttention(opt, opt.visual_rnn_size * 2, qkv_input_dim, self.qk_dim, qkv_out_dim)
+        self.qkv = SelfAttention(opt, q_input_dim, kv_input_dim, self.qk_dim, qkv_out_dim)
         self.ffn = PositionwiseFeedForward(qkv_out_dim, qkv_out_dim * 2)
 
     def forward(self, mask, kv_data, q_data):
