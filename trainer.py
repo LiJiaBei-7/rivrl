@@ -86,12 +86,12 @@ def parse_args():
     parser.add_argument('--visual_kernel_stride', type=str, default='1-1-1-1')
 
     parser.add_argument('--text_mapping_layers', type=str, default='0-1536',
-                        help='text fully connected layers for common space learning. (default: 0-2048)')
+                        help='text fully connected layers for common space learning. (default: 0-1536)')
     # multi_space learning
     parser.add_argument('--visual_mapping_layers_preview', type=str, default='0-1536',
-                        help='visual fully connected layers for common space learning. (default: 0-2048)')
+                        help='visual fully connected layers for common space learning. (default: 0-1536)')
     parser.add_argument('--visual_mapping_layers_intensive', type=str, default='0-1536',
-                        help='visual fully connected layers  for common space learning. (default: 0-2048)')
+                        help='visual fully connected layers  for common space learning. (default: 0-1536)')
 
     parser.add_argument('--model_name', type=str, default='baseline')
     parser.add_argument('--qkv_out_dim', default=512, type=int, help='dim of qkv output')
