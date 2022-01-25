@@ -1,6 +1,6 @@
 # Reading-strategy Inspired Visual Representation Learning for Text-to-Video Retrieval
 
-Source code of our paper [Reading-strategy Inspired Visual Representation Learning for Text-to-Video Retrieval](https://arxiv.org/abs/). 
+Source code of our paper [Reading-strategy Inspired Visual Representation Learning for Text-to-Video Retrieval](https://arxiv.org/abs/2201.09168). 
 
 ![image](framework.png)
 
@@ -329,3 +329,15 @@ The expected performance and corresponding pre-trained checkpoints of RIVRL on T
 ## References
 
 If you find the package useful, please consider citing our paper:
+
+```
+@misc{dong2022readingstrategy,
+      title={Reading-strategy Inspired Visual Representation Learning for Text-to-Video Retrieval}, 
+      author={Jianfeng Dong and Yabing Wang and Xianke Chen and Xiaoye Qu and Xirong Li and Yuan He and Xun Wang},
+      year={2022},
+      eprint={2201.09168},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
+
