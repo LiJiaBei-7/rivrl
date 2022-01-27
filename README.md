@@ -9,24 +9,22 @@ Source code of our paper [Reading-strategy Inspired Visual Representation Learni
 ## Table of Contents
 
 * [Environments](#environments)
-
 * [Required Data](#required-data)
-
 * [RIVRL on MSRVTT10K](#RIVRL-on-MSRVTT10K)
   
   * [Model Training and Evaluation](#model-training-and-evaluation)
   * [Evaluation using Provided Checkpoints](#Evaluation-using-Provided-Checkpoints)
   * [Expected Performance](#Expected-Performance)
-  
 * [RIVRL on VATEX](#RIVRL-on-VATEX)
 
   * [Model Training and Evaluation](#model-training-and-evaluation-1)
   * [Expected Performance](#Expected-Performance-1)
-
 * [RIVRL on TGIF](#RIVRL-on-TGIF)
-
   * [Model Training and Evaluation](#model-training-and-evaluation-2)
   * [Expected Performance](#Expected-Performance-2)
+
+
+- [Reference](#Reference)
 
   
 
@@ -61,41 +59,41 @@ conda deactivate
   <tr>
     <td colspan='2' align="center">MSR-VTT</td>
     <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>url</a>,
+      '>msrvtt</a>,
       password:6knd</td>
   </tr>
   <tr align="center">
     <td colspan='2' align="center">VATEX</td>
     <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>url</a>,
+      '>vatex</a>,
       password:6knd</td>
   </tr>
   <tr align="center">	  
     <td rowspan='2'>TGIF</td>
     <td>Chen</td>
     <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>url</a>,
+      '>tgif-chen</a>,
       password:6knd</td>
   </tr>
   <tr align="center">	  
     <td>Li</td>
     <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>url</a>,
+      '>tgif-li</a>,
       password:6knd</td>
 </table>
 
 
 
-As we use the same datasets with the [Dual Encoding](https://arxiv.org/abs/2009.05381) , please refer to [here](https://github.com/danieljf24/hybrid_space) for details about how to download and extract datasets and pre-trained word2vec, and to [here](https://github.com/danieljf24/hybrid_space/tree/master/dataset) for more information about the dataset.
+We use three public datasets: MSR-VTT, VATEX, and TGIF.  For MSR-VTT and VATEX,  you can refer to [Dual  Encoding](#(https://github.com/danieljf24/hybrid_space)) for details about how to download and extract datasets and pre-trained word2vec. For TGIF, please to [here](https://github.com/danieljf24/hybrid_space/tree/master/dataset) to download and extract dataset.
 
-Run the following script to download the features of BERT, the extracted data is placed in `$HOME/VisualSearch/`.
+Since our model uses additional Bert features, you can download the pre-extracted Bert features from Baidu pan ([url](https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw), password:6knd). You also can run the following script to download the features of BERT, the extracted data is placed in `$HOME/VisualSearch/`.
 
 ```shell
 ROOTPATH=$HOME/VisualSearch
 mkdir -p $ROOTPATH && cd $ROOTPATH
 
 # download the features of BERT
-cd $ROOTPATH
+wget http://8.210.46.84:8787/rivrl/bert
 tar zxf bert_extract.tar.gz -C $ROOTPATH
 ```
 
@@ -111,6 +109,7 @@ ROOTPATH=$HOME/VisualSearch
 conda activate rivrl_env
 
 # To train the model on the MSRVTT, which the feature is resnext-101_resnet152-13k 
+# Template:
 ./do_all_msrvtt.sh $ROOTPATH <split-Name> <useBert> <gpu-id>
 
 # Example:
@@ -126,15 +125,18 @@ Run the following script to download and evaluate our trained checkpoints. The t
 
 ```shell
 ROOTPATH=$HOME/VisualSearch
-MODELDIR=$HOME/VisualSearch/checkpoints
-mkdir -p $MODELDIR
 
-# download trained checkpoints and evaluate 
+# download trained checkpoints
+wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/msrvtt/<best_model>.pth.tar
+# <best_model> is mv_xu_best, mv_xu_Bert_best, mv_yu_best, mv_yu_Bert_best, mv_miech_best, and mv_miech_Bert_best, respectively.
+
+# evaluate on MSR-VTT
 ./do_test.sh $ROOTPATH <split-Name> $MODELDIR <gpu-id>
+# $MODELDIR is the path of checkpoints, $ROOTPATH/.../runs_0
 
 # Example:
 # evaluate on the official split of MSR-VTT
-./do_test.sh $ROOTPATH msrvtt10k $MODELDIR <gpu-id>
+./do_test.sh $ROOTPATH msrvtt10k $MODELDIR 0
 ```
 
 
@@ -217,11 +219,14 @@ Run the following script to download and evaluate our trained model on the VATEX
 
 ```shell
 ROOTPATH=$HOME/VisualSearch
-MODELDIR=$HOME/VisualSearch/checkpoints
-mkdir -p $MODELDIR
 
 # download trained checkpoints and evaluate 
+wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/vatex/<best_model>.pth.tar
+# <best_model> is vatex_best or vatex_Bert_best
+
+# evaluate on VATEX
 ./do_test.sh $ROOTPATH vatex $MODELDIR <gpu-id>
+# $MODELDIR is the path of checkpoints, $ROOTPATH/.../runs_0
 ```
 
 The expected performance and corresponding pre-trained checkpoints of RIVRL on VATEX is as follows.
@@ -275,13 +280,17 @@ Run the following script to download and evaluate our trained model on the TGIF 
 
 ```shell
 ROOTPATH=$HOME/VisualSearch
-MODELDIR=$HOME/VisualSearch/checkpoints
-mkdir -p $MODELDIR
 
-# download trained checkpoints and evaluate on the TGIF-Li
+# download trained checkpoints 
+wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/tgif/<best_model>.pth.tar
+# <best_model> is tgif_li_best, tgif_li_Bert_best, tgif_chen_best and tgif_chen_Bert_best, respectively.
+
+# evaluate on the TGIF-Li
 ./do_test.sh $ROOTPATH tgif-li $MODELDIR <gpu-id>
-# download trained checkpoints and evaluate on the TGIF-Chen
+
+# evaluate on the TGIF-Chen
 ./do_test.sh $ROOTPATH tgif-chen $MODELDIR <gpu-id>
+# $MODELDIR is the path of checkpoints, $ROOTPATH/.../runs_0
 ```
 
 The expected performance and corresponding pre-trained checkpoints of RIVRL on TGIF is as follows.
@@ -326,7 +335,7 @@ The expected performance and corresponding pre-trained checkpoints of RIVRL on T
 
 
 
-## References
+## Reference
 
 If you find the package useful, please consider citing our paper:
 
