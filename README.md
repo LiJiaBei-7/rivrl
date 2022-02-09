@@ -94,8 +94,8 @@ mkdir -p $ROOTPATH && cd $ROOTPATH
 
 # download the features of BERT
 wget http://8.210.46.84:8787/rivrl/bert/<bert-Name>.tar.gz
-# <bert-Name> is msrvtt_bert, vatex_bert, and tgif_bert respectively.
 tar zxf <bert-Name>.tar.gz -C $ROOTPATH
+# <bert-Name> is msrvtt_bert, vatex_bert, and tgif_bert respectively.
 ```
 
 ## RIVRL on MSRVTT10K
