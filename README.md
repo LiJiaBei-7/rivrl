@@ -11,20 +11,16 @@ Source code of our paper [Reading-strategy Inspired Visual Representation Learni
 * [Environments](#environments)
 * [Required Data](#required-data)
 * [RIVRL on MSRVTT10K](#RIVRL-on-MSRVTT10K)
-  
   * [Model Training and Evaluation](#model-training-and-evaluation)
   * [Evaluation using Provided Checkpoints](#Evaluation-using-Provided-Checkpoints)
   * [Expected Performance](#Expected-Performance)
 * [RIVRL on VATEX](#RIVRL-on-VATEX)
-
   * [Model Training and Evaluation](#model-training-and-evaluation-1)
   * [Expected Performance](#Expected-Performance-1)
 * [RIVRL on TGIF](#RIVRL-on-TGIF)
   * [Model Training and Evaluation](#model-training-and-evaluation-2)
   * [Expected Performance](#Expected-Performance-2)
-
-
-- [Reference](#Reference)
+* [Reference](#Reference)
 
   
 
@@ -52,41 +48,7 @@ conda deactivate
 
 ## Required Data
 
-<table>
-  <tr align="center">
-      <th >DataSet</th> <th>Splits <th>BERT</th>
-  </tr>	
-  <tr>
-    <td colspan='2' align="center">MSR-VTT</td>
-    <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>msrvtt</a>,
-      password:6knd</td>
-  </tr>
-  <tr align="center">
-    <td colspan='2' align="center">VATEX</td>
-    <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>vatex</a>,
-      password:6knd</td>
-  </tr>
-  <tr align="center">	  
-    <td rowspan='2'>TGIF</td>
-    <td>Chen</td>
-    <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>tgif-chen</a>,
-      password:6knd</td>
-  </tr>
-  <tr align="center">	  
-    <td>Li</td>
-    <td align='center'><a href='https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw
-      '>tgif-li</a>,
-      password:6knd</td>
-</table>
-
-
-
-We use three public datasets: MSR-VTT, VATEX, and TGIF.  For MSR-VTT and VATEX,  you can refer to [Dual  Encoding](#(https://github.com/danieljf24/hybrid_space)) for details about how to download and extract datasets and pre-trained word2vec. For TGIF, please to [here](https://github.com/danieljf24/hybrid_space/tree/master/dataset) to download and extract dataset.
-
-Since our model uses additional Bert features, you can download the pre-extracted Bert features from Baidu pan ([url](https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw), password:6knd). You also can run the following script to download the features of BERT, the extracted data is placed in `$HOME/VisualSearch/`.
+We use three public datasets: MSR-VTT, VATEX, and TGIF. Please refer to [here](https://github.com/danieljf24/hybrid_space/tree/master/dataset) for detailed description and how to download the datasets. Since our model uses additional Bert features, you shall download the pre-extracted Bert features from Baidu pan ([url](https://pan.baidu.com/s/1K7KJ_dc9UgL5u9UQ9DXndw), password:6knd). You can also run the following script to download the features of BERT, the extracted data is placed in `$HOME/VisualSearch/`.
 
 ```shell
 ROOTPATH=$HOME/VisualSearch
@@ -109,16 +71,18 @@ ROOTPATH=$HOME/VisualSearch
 
 conda activate rivrl_env
 
-# To train the model on the MSRVTT, which the feature is resnext-101_resnet152-13k 
+# To train the model on the MSR-VTT, which the feature is resnext-101_resnet152-13k 
 # Template:
 ./do_all_msrvtt.sh $ROOTPATH <split-Name> <useBert> <gpu-id>
 
 # Example:
-# Train RIVRL with the BERT on the official split of MSR-VTT
-./do_all_msrvtt.sh $ROOTPATH msrvtt10k 1 0
+# Train RIVRL with the BERT on MV-Yu 
+./do_all_msrvtt.sh $ROOTPATH msrvtt10yu 1 0
 ```
+`<split-Name>` indicates different partitions of the dataset.  `msrvtt10yu`, `msrvtt10k`，`msrvtt10kmiech` respectively denotes the partition of MV-Yu, MV-Miech and MV-Xu.
+`<useBert>` indicates whether training with BERT as additional text feature. 1 means using the BERT feature, while 0 indicates we do not use it.
+`<gpu-id>` is the index of the GPU where we train on.
 
-Where the `<split-Name>`  indicates different partitions of the dataset which are msrvtt10k，msrvtt10kmiech and msrvtt10yu, respectively,  the `<useBert>` indicates whether training with BERT, the value of it is 1 (with) or 0 (without) and the `<gpu-id>` is the index of the GPU to train on.
 
 ### Evaluation using Provided Checkpoints
 
@@ -129,15 +93,16 @@ ROOTPATH=$HOME/VisualSearch
 
 # download trained checkpoints
 wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/msrvtt/<best_model>.pth.tar
-# <best_model> is mv_xu_best, mv_xu_Bert_best, mv_yu_best, mv_yu_Bert_best, mv_miech_best, and mv_miech_Bert_best, respectively.
+# <best_model> is mv_yu_best, mv_yu_Bert_best, mv_miech_best, mv_miech_Bert_best, mv_xu_best, or mv_xu_Bert_best.
 
 # evaluate on MSR-VTT
+# Template:
 ./do_test.sh $ROOTPATH <split-Name> $MODELDIR <gpu-id>
 # $MODELDIR is the path of checkpoints, $ROOTPATH/.../runs_0
 
 # Example:
-# evaluate on the official split of MSR-VTT
-./do_test.sh $ROOTPATH msrvtt10k $MODELDIR 0
+# evaluate on MV-Yu
+./do_test.sh $ROOTPATH msrvtt10yu $MODELDIR 0
 ```
 
 
@@ -341,13 +306,11 @@ The expected performance and corresponding pre-trained checkpoints of RIVRL on T
 If you find the package useful, please consider citing our paper:
 
 ```
-@misc{dong2022readingstrategy,
-      title={Reading-strategy Inspired Visual Representation Learning for Text-to-Video Retrieval}, 
-      author={Jianfeng Dong and Yabing Wang and Xianke Chen and Xiaoye Qu and Xirong Li and Yuan He and Xun Wang},
-      year={2022},
-      eprint={2201.09168},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@article{dong2022reading,
+  title={Reading-strategy Inspired Visual Representation Learning for Text-to-Video Retrieval},
+  author={Dong, Jianfeng and Wang, Yabing and Chen, Xianke and Qu, Xiaoye and Li, Xirong and He, Yuan and Wang, Xun},
+  journal={IEEE Transactions on Circuits and Systems for Video Technology},
+  year={2022}
 }
 ```
 
