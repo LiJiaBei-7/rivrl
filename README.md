@@ -118,20 +118,20 @@ The expected performance and corresponding pre-trained checkpoints of RIVRL on M
   <tr align="center">
         <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th>
   </tr>
- 	<tr align="center">	  
-    <td rowspan='6'>MSR-VTT</td>
-    <td rowspan='2'>MV-Xu</td>
+   <tr align="center">
+     <td rowspan='6'>MSR-VTT</td>
+    <td rowspan='2'>MV-Yu</td>
     <td>w/o</td>
-    <td>12.9</td><td>33.0</td><td>44.6</td><td>14</td><td>23.07</td> 
-    <td>90.5</td>
-    <td>mv_xu_best.pth.tar</td>
+    <td>24.2</td><td>51.5</td><td>63.8</td><td>5</td><td>36.86</td> 
+    <td>139.5</td>
+    <td>mv_yu_best.pth.tar</td>
   </tr>
-  <tr align="center">
+   <tr align="center">
     <td>with</td>
-     <td>13.7</td><td>34.6</td><td>46.4</td><td>13</td><td>24.19</td> 
-   	 <td>94.6</td>
-    <td>mv_xu_Bert_best.pth.tar</td>
-  </tr>  
+    <td>27.9</td><td>59.3</td><td>71.3</td><td>4</td><td>42.0</td> 
+    <td>158.4</td>
+     <td>mv_yu_Bert_best.pth.tar</td>
+  </tr>
   <tr align="center">
     <td rowspan='2'>MV-Miech</td>
     <td>w/o</td>
@@ -145,20 +145,21 @@ The expected performance and corresponding pre-trained checkpoints of RIVRL on M
     <td>151.0</td> 
     <td>mv_miech_Bert_best.pth.tar</td>
   </tr>
-  <tr align="center">
-    <td rowspan='2'>MV-Yu</td>
+ 		<tr align="center">	  
+    <td rowspan='2'>MV-Xu</td>
     <td>w/o</td>
-    <td>24.2</td><td>51.5</td><td>63.8</td><td>5</td><td>36.86</td> 
-    <td>139.5</td>
-    <td>mv_yu_best.pth.tar</td>
+    <td>12.9</td><td>33.0</td><td>44.6</td><td>14</td><td>23.07</td> 
+    <td>90.5</td>
+    <td>mv_xu_best.pth.tar</td>
   </tr>
-   <tr align="center">
+  <tr align="center">
     <td>with</td>
-    <td>27.9</td><td>59.3</td><td>71.3</td><td>4</td><td>42.0</td> 
-    <td>158.4</td>
-     <td>mv_yu_Bert_best.pth.tar</td>
-  </tr>
+     <td>13.7</td><td>34.6</td><td>46.4</td><td>13</td><td>24.19</td> 
+   	 <td>94.6</td>
+    <td>mv_xu_Bert_best.pth.tar</td>
+  </tr>  
 </table>
+
 
 
 

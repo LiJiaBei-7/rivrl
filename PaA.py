@@ -4,13 +4,13 @@ import math
 import torch.nn.functional as F
 
 
-class SelfAttention(nn.Module):
+class Previewing_aware_Attention(nn.Module):
     dim_in: int
     dim_k: int
     dim_v: int
 
     def __init__(self, opt, dim_in_q, dim_in, dim_k, dim_v, dropout=0.2):
-        super(SelfAttention, self).__init__()
+        super(Previewing_aware_Attention, self).__init__()
         self.dim_in_q = dim_in_q
         self.dim_in = dim_in
         self.dim_k = dim_k
@@ -33,7 +33,6 @@ class SelfAttention(nn.Module):
             residual = F.avg_pool1d(x.permute(0, 2, 1), x.size(1)).squeeze(2)
         else:
             residual = F.max_pool1d(x.permute(0, 2, 1), x.size(1)).squeeze(2)
-
 
         q = self.linear_q(y)
         k = self.linear_k(x)
@@ -84,7 +83,7 @@ class qkv_layer(nn.Module):
     def __init__(self, opt, q_input_dim, kv_input_dim, qkv_out_dim):
         super(qkv_layer, self).__init__()
         self.qk_dim = 512
-        self.qkv = SelfAttention(opt, q_input_dim, kv_input_dim, self.qk_dim, qkv_out_dim)
+        self.qkv = Previewing_aware_Attention(opt, q_input_dim, kv_input_dim, self.qk_dim, qkv_out_dim)
         self.ffn = PositionwiseFeedForward(qkv_out_dim, qkv_out_dim * 2)
 
     def forward(self, mask, kv_data, q_data):

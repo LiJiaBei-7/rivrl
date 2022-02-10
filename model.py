@@ -257,8 +257,6 @@ class Text_multilevel_encoding(nn.Module):
             self.text_mapping_preview = Hybrid_mapping(opt.text_mapping_layers, opt.dropout, opt.tag_vocab_size).cuda()
             self.text_mapping_intensive = Hybrid_mapping(opt.text_mapping_layers, opt.dropout, opt.tag_vocab_size).cuda()
 
-        # self.text_mapping_local = Latent_mapping(opt.text_mapping_layers, opt.dropout, opt.tag_vocab_size).cuda()
-
         self.init_weights()
 
         self.space = opt.space
@@ -275,10 +273,7 @@ class Text_multilevel_encoding(nn.Module):
         # Embed word ids to vectors
         self.rnn.flatten_parameters()
 
-        # if opt.use_bert == 1:
         cap_wids, cap_bows, cap_bert, lengths, cap_mask = text
-        # else:
-        #     cap_wids, cap_bows, lengths, cap_mask = text
 
         # Level 1. Global Encoding by Mean Pooling According
         org_out = cap_bows
@@ -329,15 +324,11 @@ class Text_multilevel_encoding(nn.Module):
 
 
 class Hybrid_mapping(nn.Module):
-    """
-    Section 4.1. Hybrid space mapping
-    """
 
     def __init__(self, mapping_layers, dropout, tag_vocab_size, l2norm=True):
         super(Hybrid_mapping, self).__init__()
 
         self.l2norm = l2norm
-        # visual mapping
         self.mapping = MFC(mapping_layers, dropout, have_bn=True, have_last_bn=True)
 
         self.tag_fc = nn.Linear(mapping_layers[0], tag_vocab_size)
@@ -358,15 +349,11 @@ class Hybrid_mapping(nn.Module):
 
 
 class Latent_mapping(nn.Module):
-    """
-    Latent space mapping (Conference version)
-    """
 
     def __init__(self, mapping_layers, dropout, l2norm=True):
         super(Latent_mapping, self).__init__()
 
         self.l2norm = l2norm
-        # visual mapping
         self.mapping = MFC(mapping_layers, dropout, have_bn=True, have_last_bn=True)
 
     def forward(self, features):
@@ -387,40 +374,34 @@ class BaseModel(object):
     def load_state_dict(self, state_dict):
         self.vid_encoding.load_state_dict(state_dict[0])
         self.text_encoding.load_state_dict(state_dict[1])
-        # self.text_mapping.load_state_dict(state_dict[2])
 
     def train_start(self):
         """switch to train mode
         """
         self.vid_encoding.train()
         self.text_encoding.train()
-        # self.text_mapping.train()
 
     def val_start(self):
         """switch to evaluate mode
         """
         self.vid_encoding.eval()
         self.text_encoding.eval()
-        # self.text_mapping.eval()
 
     def init_info(self):
         # init gpu
         if torch.cuda.is_available():
             self.vid_encoding.cuda()
             self.text_encoding.cuda()
-            # self.text_mapping.cuda()
             cudnn.benchmark = True
 
         # init params
         params = list(self.vid_encoding.parameters())
         params += list(self.text_encoding.parameters())
-        # params += list(self.text_mapping.parameters())
         self.params = params
 
         # print structure
         print(self.vid_encoding)
         print(self.text_encoding)
-        # print(self.text_mapping)
 
 
 class Preview_Intensive_Encoding(BaseModel):
@@ -458,15 +439,12 @@ class Preview_Intensive_Encoding(BaseModel):
         """
         # video data
         frames, mean_origin, video_lengths, vidoes_mask = videos
-        # frames = Variable(frames, volatile=volatile)
         if torch.cuda.is_available():
             frames = frames.cuda()
 
-        # mean_origin = Variable(mean_origin, volatile=volatile)
         if torch.cuda.is_available():
             mean_origin = mean_origin.cuda()
 
-        # vidoes_mask = Variable(vidoes_mask, volatile=volatile)
         if torch.cuda.is_available():
             vidoes_mask = vidoes_mask.cuda()
         videos_data = (frames, mean_origin, video_lengths, vidoes_mask)
@@ -474,26 +452,21 @@ class Preview_Intensive_Encoding(BaseModel):
         # text data
         captions, cap_bows, cap_bert, lengths, cap_masks = targets
         if captions is not None:
-            # captions = Variable(captions, volatile=volatile)
             if torch.cuda.is_available():
                 captions = captions.cuda()
 
         if cap_bows is not None:
-            # cap_bows = Variable(cap_bows, volatile=volatile)
             if torch.cuda.is_available():
                 cap_bows = cap_bows.cuda()
 
         if cap_masks is not None:
-            # cap_masks = Variable(cap_masks, volatile=volatile)
             if torch.cuda.is_available():
                 cap_masks = cap_masks.cuda()
         if cap_bert is not None:
-            # cap_bert = Variable(cap_bert, volatile=volatile)
             if torch.cuda.is_available():
                 cap_bert = cap_bert.cuda()
         text_data = (captions, cap_bows, cap_bert, lengths, cap_masks)
 
-        # vid_emb = self.vid_mapping(self.vid_encoding(videos_data))
         vid_emb_preview, vid_emb_intensive = self.vid_encoding(videos_data)
         cap_embs = self.text_encoding(text_data)
         return vid_emb_preview, vid_emb_intensive, cap_embs
@@ -503,15 +476,12 @@ class Preview_Intensive_Encoding(BaseModel):
         """
         # video data
         frames, mean_origin, video_lengths, vidoes_mask = vis_data
-        # frames = Variable(frames, volatile=volatile)
         if torch.cuda.is_available():
             frames = frames.cuda()
 
-        # mean_origin = Variable(mean_origin, volatile=volatile)
         if torch.cuda.is_available():
             mean_origin = mean_origin.cuda()
 
-        # vidoes_mask = Variable(vidoes_mask, volatile=volatile)
         if torch.cuda.is_available():
             vidoes_mask = vidoes_mask.cuda()
         vis_data = (frames, mean_origin, video_lengths, vidoes_mask)
@@ -520,28 +490,24 @@ class Preview_Intensive_Encoding(BaseModel):
 
         return vid_emb_preview, vid_emb_intensive
 
-    def embed_txt(self, txt_data, volatile=True):
+    def embed_txt(self, txt_data):
         """Compute the caption embeddings
         """
         # text data
         captions, cap_bows, cap_bert, lengths, cap_masks = txt_data
         if captions is not None:
-            # captions = Variable(captions, volatile=volatile)
             if torch.cuda.is_available():
                 captions = captions.cuda()
 
         if cap_bows is not None:
-            # cap_bows = Variable(cap_bows, volatile=volatile)
             if torch.cuda.is_available():
                 cap_bows = cap_bows.cuda()
 
         if cap_masks is not None:
-            # cap_masks = Variable(cap_masks, volatile=volatile)
             if torch.cuda.is_available():
                 cap_masks = cap_masks.cuda()
 
         if cap_bert is not None:
-            # cap_bert = Variable(cap_bert, volatile=volatile)
             if torch.cuda.is_available():
                 cap_bert = cap_bert.cuda()
         txt_data = (captions, cap_bows, cap_bert, lengths, cap_masks)
@@ -555,7 +521,6 @@ class Preview_Intensive_Encoding(BaseModel):
         loss += self.criterion(cap_embs[1], vid_emb_intensive)
 
         self.logger.update('Le', loss.item(), vid_emb_preview.size(0))
-        # self.logger.update('Le', loss.data[0], vid_emb.size(0))
 
         return loss
 
@@ -616,7 +581,6 @@ class Preview_Intensive_Encoding_Hybrid(Preview_Intensive_Encoding):
                                                      direction=opt.direction)
 
         self.tag_criterion = nn.BCELoss()
-        # self.tag_criterion = nn.BCELoss(reduction=opt.cost_style)
 
         if opt.optimizer == 'adam':
             self.optimizer = torch.optim.Adam(self.params, lr=opt.learning_rate)
