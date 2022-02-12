@@ -34,7 +34,7 @@ def parse_args():
     parser.add_argument('--testCollection', type=str,  help='test collection')
     parser.add_argument('--overwrite', type=int, default=0, choices=[0,1], help='overwrite existed file. (default: 0)')
     # model
-    parser.add_argument('--model', type=str, default='rivrl', help='model name')
+    parser.add_argument('--model', type=str, default='preview_intensive_encoding', help='model name')
     parser.add_argument('--space', type=str, default='hybrid', help='which concept? hybrid, latent, concept')
     parser.add_argument('--concate', type=str, default='full', help='feature concatenation style. (full|reduced) full=level 1+2+3; reduced=level 2+3')
     parser.add_argument('--measure', type=str, default='cosine', help='measure method. (default: cosine)')

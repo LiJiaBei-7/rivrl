@@ -53,6 +53,7 @@ We use three public datasets: MSR-VTT, VATEX, and TGIF. Please refer to [here](h
 ```shell
 ROOTPATH=$HOME/VisualSearch
 mkdir -p $ROOTPATH && cd $ROOTPATH
+mkdir bert_extract && cd bert_extract
 
 # download the features of BERT
 wget http://8.210.46.84:8787/rivrl/bert/<bert-Name>.tar.gz

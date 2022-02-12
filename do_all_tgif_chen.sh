@@ -28,7 +28,7 @@ model_name=baseline
 gpu=$3
 CUDA_VISIBLE_DEVICES=$gpu python trainer.py --overwrite $overwrite --max_violation --text_norm --visual_norm \
                                             --collection $collection --visual_feature $visual_feature --space $space\
-                                            --num_cnn $num_cnn\
+                                            --num_cnn $num_cnn --rootpath $rootpath \
                                             --visual_kernel_sizes $visual_kernel_sizes --model_name $model_name \
                                             --visual_kernel_stride $visual_kernel_stride --visual_rnn_size $visual_rnn_size \
                                             --qkv_input_dim $qkv_input_dim --qkv_out_dim $qkv_out_dim \
