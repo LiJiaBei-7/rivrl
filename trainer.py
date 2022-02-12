@@ -13,6 +13,7 @@ import tensorboard_logger as tb_logger
 from model import get_model, get_we_parameter
 
 import util.tag_data_provider as data
+from util.vocab import Vocabulary
 from util.text2vec import get_text_encoder
 
 from basic.constant import ROOT_PATH
