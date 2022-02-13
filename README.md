@@ -95,6 +95,7 @@ ROOTPATH=$HOME/VisualSearch
 # download trained checkpoints
 wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/msrvtt/<best_model>.pth.tar
 # <best_model> is mv_yu_best, mv_yu_Bert_best, mv_miech_best, mv_miech_Bert_best, mv_xu_best, or mv_xu_Bert_best.
+tar zxf $ROOTPATH/<best_model>.pth.tar -C $ROOTPATH
 
 # evaluate on MSR-VTT
 # Template:
@@ -103,7 +104,7 @@ wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/msrvtt/<best_model>.p
 
 # Example:
 # evaluate on MV-Yu
-./do_test.sh $ROOTPATH msrvtt10yu $MODELDIR 0
+./do_test.sh $ROOTPATH msrvtt10kyu $MODELDIR 0
 ```
 
 
@@ -191,6 +192,7 @@ ROOTPATH=$HOME/VisualSearch
 # download trained checkpoints and evaluate 
 wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/vatex/<best_model>.pth.tar
 # <best_model> is vatex_best or vatex_Bert_best
+tar zxf $ROOTPATH/<best_model>.pth.tar -C $ROOTPATH
 
 # evaluate on VATEX
 ./do_test.sh $ROOTPATH vatex $MODELDIR <gpu-id>
@@ -252,6 +254,7 @@ ROOTPATH=$HOME/VisualSearch
 # download trained checkpoints 
 wget -P $ROOTPATH http://8.210.46.84:8787/rivrl/best_model/tgif/<best_model>.pth.tar
 # <best_model> is tgif_li_best, tgif_li_Bert_best, tgif_chen_best and tgif_chen_Bert_best, respectively.
+tar zxf $ROOTPATH/<best_model>.pth.tar -C $ROOTPATH
 
 # evaluate on the TGIF-Li
 ./do_test.sh $ROOTPATH tgif-li $MODELDIR <gpu-id>
